@@ -1,0 +1,62 @@
+# A project translates into one executable or library.
+project:
+  device: ""
+
+  misc:
+    - for-compiler: AC6
+      C:
+        - -fshort-enums
+
+  define:
+    - USE_RTOS2
+
+  add-path:
+    - ./lib/inc
+    - ./ssd1306_LL
+
+  groups:
+    - group: Source Files
+      files:
+        - file: ./app_main.c
+
+    - group: myLL
+      files:
+        - file: ./lib/src/i2s_LL.c
+        - file: ./lib/src/i2c_LL.c
+        - file: ./lib/src/delay_LL.c
+
+    - group: ssd1306
+      files:
+        - file: ./ssd1306_LL/ssd1306_fonts.c
+        - file: ./ssd1306_LL/ssd1306.c
+        - file: ./ssd1306_LL/ssd1306_tests.c
+      
+
+    - group: LL HAL
+      files:
+        - file: ../STM32CubeMX/STM32F401RCTx/STM32CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.c
+        - file: ../STM32CubeMX/STM32F401RCTx/STM32CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.c
+        - file: ../STM32CubeMX/STM32F401RCTx/STM32CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.c
+
+
+
+    - group: Libraries
+      files:
+      - file: ./lib/src/libneai.a
+
+  # List components to use for your application.
+  # A software component is a re-usable unit that may be configurable.
+  components:
+    - component: ARM::CMSIS:CORE
+    - component: Device:CubeMX
+    - component: CMSIS:OS Tick:SysTick
+    - component: CMSIS:RTOS2:Keil RTX5&Source
+
+  # List executable file formats to be generated.
+  output:
+    type:
+      - elf
+      - hex
+      - map
+  packs:
+    - pack: ARM::CMSIS-RTX
